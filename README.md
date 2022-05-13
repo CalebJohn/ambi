@@ -3,6 +3,8 @@ Ambi
 
 This is a repo containing 5 progressively faster implementations of a 180deg ambigram generator. I set out to write the faster ambigram generator as possible. Sadly, as I started implementing, the bottleneck was reading lines from a text file, the ambigram specifics were pretty quick. This lead to me writing progressively faster readers. 
 
+The input to all these programs is the filename of a text file the dictionary of words to search across. One line per word.
+
 `ambi.nim` - This is the naive implementation that I started with. Here I focused on code style and ease-of-development over speed.
 
 `ambi_all.nim` - This is the first attempt at optimization. It's also a naive approach but it loads the entire wordlist into memory before processing.
