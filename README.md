@@ -17,6 +17,8 @@ The input to all these programs is the filename of a text file the dictionary of
 
 I used an ~30MB wordlist with 2,834,369 words in it.
 
+`nim c -d:release --opt:speed` was used for compilation.
+
 ```
 ❯ hyperfine --warmup 2 './ambi wordss.txt' './ambi_all wordss.txt' './ambi_fast wordss.txt' './ambi_fastcull wordss.txt' './ambi_opt wordss.txt'
 Benchmark 1: ./ambi wordss.txt
@@ -45,6 +47,38 @@ Summary
     2.00 ± 0.03 times faster than './ambi_fast wordss.txt'
     2.15 ± 0.03 times faster than './ambi_all wordss.txt'
     4.45 ± 0.05 times faster than './ambi wordss.txt'
+```
+
+Using `-d danger` instead.
+
+```
+❯ hyperfine --warmup 2 './ambi wordss.txt' './ambi_all wordss.txt' './ambi_fast wordss.txt' './ambi_fastcull wordss.txt' './ambi_opt wordss.txt'
+Benchmark 1: ./ambi wordss.txt
+  Time (mean ± σ):     265.7 ms ±   2.3 ms    [User: 257.1 ms, System: 8.5 ms]
+  Range (min … max):   264.0 ms … 271.4 ms    11 runs
+
+Benchmark 2: ./ambi_all wordss.txt
+  Time (mean ± σ):     187.1 ms ±   1.0 ms    [User: 173.6 ms, System: 13.4 ms]
+  Range (min … max):   185.0 ms … 188.8 ms    15 runs
+
+Benchmark 3: ./ambi_fast wordss.txt
+  Time (mean ± σ):     149.5 ms ±   0.6 ms    [User: 134.4 ms, System: 15.1 ms]
+  Range (min … max):   148.2 ms … 150.6 ms    20 runs
+
+Benchmark 4: ./ambi_fastcull wordss.txt
+  Time (mean ± σ):      97.4 ms ±   0.7 ms    [User: 82.6 ms, System: 14.7 ms]
+  Range (min … max):    96.1 ms …  99.2 ms    30 runs
+
+Benchmark 5: ./ambi_opt wordss.txt
+  Time (mean ± σ):      86.8 ms ±   0.5 ms    [User: 77.6 ms, System: 9.2 ms]
+  Range (min … max):    86.2 ms …  88.5 ms    33 runs
+
+Summary
+  './ambi_opt wordss.txt' ran
+    1.12 ± 0.01 times faster than './ambi_fastcull wordss.txt'
+    1.72 ± 0.01 times faster than './ambi_fast wordss.txt'
+    2.16 ± 0.02 times faster than './ambi_all wordss.txt'
+    3.06 ± 0.03 times faster than './ambi wordss.txt'
 ```
 
 Nim really shows it's power here. The first 4 implementation are (in my opinion) quite easy to read and understand. The fourth shows that Nim can still expose "lower level" details when necessary for performance (arguably it's also quite simple).
