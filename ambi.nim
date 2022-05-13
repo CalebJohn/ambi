@@ -1,4 +1,4 @@
-# import nimprof
+import nimprof
 import std/[sugar, tables]
 import os
 
@@ -20,12 +20,10 @@ let ambiChars = {
 
 
 proc isAmbi(word: string): bool =
-  if word[0] notin ambiChars: return false
-
-  result = true
   for i in 0..(word.len div 2):
     if word[i] notin ambiChars or word[word.len - i - 1] != ambiChars[word[i]]:
-      result = false
+      return false
+  return true
 
 if paramCount() < 1:
   echo "Please supply a word file"
@@ -38,53 +36,57 @@ let ambigrams = collect:
 echo ambigrams.len
 echo ambigrams
 
-#0.55user 0.00system 0:00.56elapsed 99%CPU (0avgtext+0avgdata 1744maxresident)k
-#0inputs+0outputs (0major+107minor)pagefaults 0swaps
+# 0.44user 0.01system 0:00.45elapsed 100%CPU (0avgtext+0avgdata 1808maxresident)k
+# 0inputs+0outputs (0major+109minor)pagefaults 0swaps
 #
 #
 # total executions of each stack trace:
-# Entry: 1/13 Calls: 333/441 = 75.51% [sum: 333; 333/441 = 75.51%]
-#   io.nim: readLine 354/441 = 80.27%
-#   ambi.nim: ambi 440/441 = 99.77%
-# Entry: 2/13 Calls: 20/441 = 4.54% [sum: 353; 353/441 = 80.05%]
-#   comparisons.nim: <% 26/441 = 5.90%
-#   gc.nim: newObjRC1 46/441 = 10.43%
-#   ambi.nim: ambi 440/441 = 99.77%
-# Entry: 3/13 Calls: 19/441 = 4.31% [sum: 372; 372/441 = 84.35%]
-#   ambi.nim: isAmbi 19/441 = 4.31%
-#   ambi.nim: ambi 440/441 = 99.77%
-# Entry: 4/13 Calls: 18/441 = 4.08% [sum: 390; 390/441 = 88.44%]
-#   comparisons.nim: <=% 24/441 = 5.44%
-#   gc_common.nim: isOnStack 18/441 = 4.08%
-#   gc.nim: unsureAsgnRef 18/441 = 4.08%
-#   io.nim: readLine 354/441 = 80.27%
-#   ambi.nim: ambi 440/441 = 99.77%
-# Entry: 5/13 Calls: 11/441 = 2.49% [sum: 401; 401/441 = 90.93%]
-#   gc.nim: newObjRC1 46/441 = 10.43%
-#   ambi.nim: ambi 440/441 = 99.77%
-# Entry: 6/13 Calls: 8/441 = 1.81% [sum: 409; 409/441 = 92.74%]
-#   ambi.nim: ambi 440/441 = 99.77%
-# Entry: 7/13 Calls: 8/441 = 1.81% [sum: 417; 417/441 = 94.56%]
-#   arithmetics.nim: +% 8/441 = 1.81%
-#   gc.nim: cellToUsr 8/441 = 1.81%
-#   gc.nim: newObjRC1 46/441 = 10.43%
-#   ambi.nim: ambi 440/441 = 99.77%
-# Entry: 8/13 Calls: 7/441 = 1.59% [sum: 424; 424/441 = 96.15%]
-#   arithmetics.nim: -% 8/441 = 1.81%
-#   gc.nim: decRef 13/441 = 2.95%
-#   gc.nim: nimGCunrefNoCycle 13/441 = 2.95%
-#   ambi.nim: ambi 440/441 = 99.77%
-# Entry: 9/13 Calls: 6/441 = 1.36% [sum: 430; 430/441 = 97.51%]
-#   comparisons.nim: <=% 24/441 = 5.44%
-#   alloc.nim: interiorAllocatedPtr 7/441 = 1.59%
-#   gc.nim: newObjRC1 46/441 = 10.43%
-#   ambi.nim: ambi 440/441 = 99.77%
-# Entry: 10/13 Calls: 6/441 = 1.36% [sum: 436; 436/441 = 98.87%]
-#   comparisons.nim: <% 26/441 = 5.90%
-#   gc.nim: decRef 13/441 = 2.95%
-#   gc.nim: nimGCunrefNoCycle 13/441 = 2.95%
-#   ambi.nim: ambi 440/441 = 99.77%
-# Entry: 11/13 Calls: 3/441 = 0.68% [sum: 439; 439/441 = 99.55%]
-#   system.nim: == 3/441 = 0.68%
-#   io.nim: readLine 354/441 = 80.27%
-#   ambi.nim: ambi 440/441 = 99.77%
+# Entry: 1/17 Calls: 290/366 = 79.23% [sum: 290; 290/366 = 79.23%]
+#   io.nim: readLine 307/366 = 83.88%
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 2/17 Calls: 14/366 = 3.83% [sum: 304; 304/366 = 83.06%]
+#   comparisons.nim: <% 18/366 = 4.92%
+#   gc.nim: newObjRC1 34/366 = 9.29%
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 3/17 Calls: 13/366 = 3.55% [sum: 317; 317/366 = 86.61%]
+#   comparisons.nim: <=% 16/366 = 4.37%
+#   gc_common.nim: isOnStack 13/366 = 3.55%
+#   gc.nim: unsureAsgnRef 13/366 = 3.55%
+#   io.nim: readLine 307/366 = 83.88%
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 4/17 Calls: 10/366 = 2.73% [sum: 327; 327/366 = 89.34%]
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 5/17 Calls: 9/366 = 2.46% [sum: 336; 336/366 = 91.80%]
+#   gc.nim: newObjRC1 34/366 = 9.29%
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 6/17 Calls: 5/366 = 1.37% [sum: 341; 341/366 = 93.17%]
+#   arithmetics.nim: -% 7/366 = 1.91%
+#   gc.nim: usrToCell 5/366 = 1.37%
+#   gc.nim: nimGCunrefNoCycle 10/366 = 2.73%
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 7/17 Calls: 4/366 = 1.09% [sum: 345; 345/366 = 94.26%]
+#   ambi.nim: isAmbi 4/366 = 1.09%
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 8/17 Calls: 4/366 = 1.09% [sum: 349; 349/366 = 95.36%]
+#   system.nim: == 4/366 = 1.09%
+#   io.nim: readLine 307/366 = 83.88%
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 9/17 Calls: 4/366 = 1.09% [sum: 353; 353/366 = 96.45%]
+#   comparisons.nim: <% 18/366 = 4.92%
+#   gc.nim: decRef 5/366 = 1.37%
+#   gc.nim: nimGCunrefNoCycle 10/366 = 2.73%
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 10/17 Calls: 3/366 = 0.82% [sum: 356; 356/366 = 97.27%]
+#   arithmetics.nim: +% 7/366 = 1.91%
+#   gc.nim: newObjRC1 34/366 = 9.29%
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 11/17 Calls: 3/366 = 0.82% [sum: 359; 359/366 = 98.09%]
+#   arithmetics.nim: +% 7/366 = 1.91%
+#   gc.nim: cellToUsr 3/366 = 0.82%
+#   gc.nim: newObjRC1 34/366 = 9.29%
+#   ambi.nim: ambi 365/366 = 99.73%
+# Entry: 12/17 Calls: 2/366 = 0.55% [sum: 361; 361/366 = 98.63%]
+#   comparisons.nim: <=% 16/366 = 4.37%
+#   alloc.nim: interiorAllocatedPtr 3/366 = 0.82%
+#   gc.nim: newObjRC1 34/366 = 9.29%
+#   ambi.nim: ambi 365/366 = 99.73%

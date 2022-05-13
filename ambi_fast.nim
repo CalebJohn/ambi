@@ -1,4 +1,4 @@
-# import nimprof
+import nimprof
 import std/[sugar, tables, strutils]
 import os
 
@@ -20,12 +20,10 @@ let ambiChars = {
 
 
 proc isAmbi(word: string): bool =
-  if word[0] notin ambiChars: return false
-
-  result = true
   for i in 0..(word.len div 2):
     if word[i] notin ambiChars or word[word.len - i - 1] != ambiChars[word[i]]:
-      result = false
+      return false
+  return true
 
 if paramCount() < 1:
   echo "Please supply a word file"
@@ -49,45 +47,45 @@ for i in 0..wordList.len-1:
 echo ambigrams.len
 echo ambigrams
 
-# 0.27user 0.01system 0:00.28elapsed 99%CPU (0avgtext+0avgdata 30608maxresident)k
-# 0inputs+0outputs (0major+7347minor)pagefaults 0swaps
+# 0.19user 0.01system 0:00.21elapsed 99%CPU (0avgtext+0avgdata 30708maxresident)k
+# 0inputs+0outputs (0major+7350minor)pagefaults 0swaps
 
 
 # total executions of each stack trace:
-# Entry: 1/11 Calls: 73/280 = 26.07% [sum: 73; 73/280 = 26.07%]
-#   system.nim: [] 160/280 = 57.14%
-#   ambi_fast.nim: ambi_fast 279/280 = 99.64%
-# Entry: 2/11 Calls: 67/280 = 23.93% [sum: 140; 140/280 = 50.00%]
-#   ambi_fast.nim: ambi_fast 279/280 = 99.64%
-# Entry: 3/11 Calls: 48/280 = 17.14% [sum: 188; 188/280 = 67.14%]
-#   comparisons.nim: <=% 51/280 = 18.21%
-#   gc.nim: newObj 87/280 = 31.07%
-#   system.nim: [] 160/280 = 57.14%
-#   ambi_fast.nim: ambi_fast 279/280 = 99.64%
-# Entry: 4/11 Calls: 27/280 = 9.64% [sum: 215; 215/280 = 76.79%]
-#   system.nim: .. 27/280 = 9.64%
-#   ambi_fast.nim: ambi_fast 279/280 = 99.64%
-# Entry: 5/11 Calls: 25/280 = 8.93% [sum: 240; 240/280 = 85.71%]
-#   ambi_fast.nim: isAmbi 25/280 = 8.93%
-#   ambi_fast.nim: ambi_fast 279/280 = 99.64%
-# Entry: 6/11 Calls: 15/280 = 5.36% [sum: 255; 255/280 = 91.07%]
-#   comparisons.nim: <% 16/280 = 5.71%
-#   gc.nim: newObj 87/280 = 31.07%
-#   system.nim: [] 160/280 = 57.14%
-#   ambi_fast.nim: ambi_fast 279/280 = 99.64%
-# Entry: 7/11 Calls: 12/280 = 4.29% [sum: 267; 267/280 = 95.36%]
-#   gc.nim: newObj 87/280 = 31.07%
-#   system.nim: [] 160/280 = 57.14%
-#   ambi_fast.nim: ambi_fast 279/280 = 99.64%
-# Entry: 8/11 Calls: 8/280 = 2.86% [sum: 275; 275/280 = 98.21%]
-#   arithmetics.nim: +% 8/280 = 2.86%
-#   gc.nim: cellToUsr 8/280 = 2.86%
-#   gc.nim: newObj 87/280 = 31.07%
-#   system.nim: [] 160/280 = 57.14%
-#   ambi_fast.nim: ambi_fast 279/280 = 99.64%
-# Entry: 9/11 Calls: 3/280 = 1.07% [sum: 278; 278/280 = 99.29%]
-#   comparisons.nim: <=% 51/280 = 18.21%
-#   alloc.nim: interiorAllocatedPtr 4/280 = 1.43%
-#   gc.nim: newObj 87/280 = 31.07%
-#   system.nim: [] 160/280 = 57.14%
-#   ambi_fast.nim: ambi_fast 279/280 = 99.64%
+# Entry: 1/11 Calls: 56/202 = 27.72% [sum: 56; 56/202 = 27.72%]
+#   ambi_fast.nim: ambi_fast 201/202 = 99.50%
+# Entry: 2/11 Calls: 42/202 = 20.79% [sum: 98; 98/202 = 48.51%]
+#   comparisons.nim: <=% 44/202 = 21.78%
+#   gc.nim: newObj 77/202 = 38.12%
+#   system.nim: [] 119/202 = 58.91%
+#   ambi_fast.nim: ambi_fast 201/202 = 99.50%
+# Entry: 3/11 Calls: 42/202 = 20.79% [sum: 140; 140/202 = 69.31%]
+#   system.nim: [] 119/202 = 58.91%
+#   ambi_fast.nim: ambi_fast 201/202 = 99.50%
+# Entry: 4/11 Calls: 21/202 = 10.40% [sum: 161; 161/202 = 79.70%]
+#   system.nim: .. 21/202 = 10.40%
+#   ambi_fast.nim: ambi_fast 201/202 = 99.50%
+# Entry: 5/11 Calls: 12/202 = 5.94% [sum: 173; 173/202 = 85.64%]
+#   gc.nim: newObj 77/202 = 38.12%
+#   system.nim: [] 119/202 = 58.91%
+#   ambi_fast.nim: ambi_fast 201/202 = 99.50%
+# Entry: 6/11 Calls: 11/202 = 5.45% [sum: 184; 184/202 = 91.09%]
+#   comparisons.nim: <% 11/202 = 5.45%
+#   gc.nim: newObj 77/202 = 38.12%
+#   system.nim: [] 119/202 = 58.91%
+#   ambi_fast.nim: ambi_fast 201/202 = 99.50%
+# Entry: 7/11 Calls: 9/202 = 4.46% [sum: 193; 193/202 = 95.54%]
+#   arithmetics.nim: +% 10/202 = 4.95%
+#   gc.nim: cellToUsr 9/202 = 4.46%
+#   gc.nim: newObj 77/202 = 38.12%
+#   system.nim: [] 119/202 = 58.91%
+#   ambi_fast.nim: ambi_fast 201/202 = 99.50%
+# Entry: 8/11 Calls: 5/202 = 2.48% [sum: 198; 198/202 = 98.02%]
+#   ambi_fast.nim: isAmbi 5/202 = 2.48%
+#   ambi_fast.nim: ambi_fast 201/202 = 99.50%
+# Entry: 9/11 Calls: 2/202 = 0.99% [sum: 200; 200/202 = 99.01%]
+#   comparisons.nim: <=% 44/202 = 21.78%
+#   alloc.nim: interiorAllocatedPtr 2/202 = 0.99%
+#   gc.nim: newObj 77/202 = 38.12%
+#   system.nim: [] 119/202 = 58.91%
+#   ambi_fast.nim: ambi_fast 201/202 = 99.50%
