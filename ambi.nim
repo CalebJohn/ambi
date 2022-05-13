@@ -1,4 +1,4 @@
-import nimprof
+# import nimprof
 import std/[sugar, tables]
 import os
 

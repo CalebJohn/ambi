@@ -1,5 +1,5 @@
-import nimprof
-import std/[sugar, tables, strutils]
+# import nimprof
+import std/tables
 import os
 
 let ambiChars = {
