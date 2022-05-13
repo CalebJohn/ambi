@@ -1,5 +1,5 @@
 # import nimprof
-import std/[tables, sequtils]
+import std/[tables]
 import os
 
 let ambiChars = {
@@ -52,7 +52,6 @@ var
   skip = false
   wStart = 0
   ch = ' '
-  word: seq[char]
 
 let bp = addr buffer
 
